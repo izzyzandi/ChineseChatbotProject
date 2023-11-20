@@ -23,17 +23,17 @@ def NumberOfWords(text):
     return len(text.split())
 
 
-def Startup():
-    print(
-        "Hi. I am a Chinese teaching chatbot. Before we can begin any lessons, I need to know your level.\nPlease type"
-        "up to 10 sentences in Chinese. When typing, please separate words with spaces. 谢谢!\n")
+def Startup(text):
+#    print(
+#        "Hi. I am a Chinese teaching chatbot. Before we can begin any lessons, I need to know your level.\nPlease type"
+#        "up to 10 sentences in Chinese. When typing, please separate words with spaces. 谢谢!\n")
 
-    text = input()
+#    text = input()
     r = FleschKincaidScoreCalculation(NumberOfSyllables(text), NumberOfWords(text), NumberOfSentences(text))
 
     if r >= 40:
-        print("you are a beginner")
+        return ("Chatbot: You are a beginner")
     elif 23 < r < 40:
-        print("you are intermediate")
+        return("Chatbot: You are intermediate")
     else:
-        print("you are fluent!")
+        return("Chatbot: You are fluent!")
