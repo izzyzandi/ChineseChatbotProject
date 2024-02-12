@@ -1,0 +1,12 @@
+{"intents": [
+  {"tag": "weather",
+  "patterns": ["What is the weather like today?", "Is is cold?", "It rained today"],
+  "responses": ["It is cold", "It is sunny"],
+  "context_set": ""
+  },
+  {"tag": "greeting",
+    "patterns": ["How are you?", "Hows it going?"],
+    "responses": ["I'm good thanks", "eh im okay"],
+    "context_set": ""
+  }
+]}
