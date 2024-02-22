@@ -9,7 +9,7 @@ import json
 from nltk.stem.lancaster import LancasterStemmer
 stemmer = LancasterStemmer()
 
-with open("intents.json") as file:
+with open("intents.json",encoding='utf-8') as file:
     data = json.load(file)
 
 words = []
@@ -88,7 +88,6 @@ def bag_of_words(s, words):
 
 
 def chat():
-    print("START")
     while True:
         inp = input("YOU: ")
         if inp.lower() == "quit":
@@ -104,5 +103,31 @@ def chat():
 
         print(random.choice(responses))
 
+
+def initial_prompt():
+    inp = input("INITIAL INPUT")  # replace with a quiz input of what the user got incorrect
+
+    results = model.predict([bag_of_words(inp, words)])
+    results_index = numpy.argmax(results)
+    tag = labels[results_index]
+
+    for tag_ in data["intents"]:
+        if tag_["tag"] == tag:
+            responses = tag_["responses"]
+
+    print(random.choice(responses))
+
+
+initial_prompt()
 chat()
 
+  # {"tag": "introductions",
+  # "patterns": ["我 的 爸爸 和 妈妈 是 中国人、", "我 今年 二十 歲"],
+  # "responses": ["我是电脑", "我不粘"],
+  # "context_set": ""
+  #                    },
+  # {"tag": "greeting",
+  #  "patterns": ["你 今天 怎么样","你好"],
+  #  "responses": ["我很好", "不好", "你好"],
+  #  "context_set": ""
+  #                      },

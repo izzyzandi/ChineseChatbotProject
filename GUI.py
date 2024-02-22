@@ -1,14 +1,30 @@
+import math
 import tkinter
 
 import startupProgram.startupProgram
 
 
+def add_newline(message):
+    num_of_loops = math.ceil(len(message)/70)+1
+    for i in range(1, num_of_loops):
+        upper_bound = i*70
+        lower_bound = (i-1)*70
+        messages.insert(tkinter.END, "User: " + message[lower_bound:upper_bound])
+
 def send(event=None):
     message = userMsg.get()
-    messages.insert(tkinter.END, "User: " + message)
+    if len(message) > 70:
+        add_newline(message)
+    else:
+        messages.insert(tkinter.END, "User: " + message)
     if z == 1:
         messages.insert(tkinter.END, startupProgram.startupProgram.Startup(message))
-    userMsg.set("")
+        userMsg.set("")
+    # message = userMsg.get()
+    # messages.insert(tkinter.END, "User: " + message)
+    # if z == 1:
+    #     messages.insert(tkinter.END, startupProgram.startupProgram.Startup(message))
+    # userMsg.set("")
 
 
 def startupGUI():
@@ -38,7 +54,6 @@ inputbar.bind("<Return>", send)
 inputbar.pack()
 sendButton = tkinter.Button(x, text="Send", command=send)
 sendButton.pack()
-
 
 
 startupGUI()

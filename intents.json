@@ -1,12 +1,55 @@
 {"intents": [
-  {"tag": "weather",
-  "patterns": ["What is the weather like today?", "Is is cold?", "It rained today"],
-  "responses": ["It is cold", "It is sunny"],
-  "context_set": ""
-  },
   {"tag": "greeting",
-    "patterns": ["How are you?", "Hows it going?"],
-    "responses": ["I'm good thanks", "eh im okay"],
+    "patterns": ["how are you?","how is your day?"],
+    "responses": ["good thank you. What are you doing today?","very good! Where are you going tomorrow?",
+      "not good. What's the weather like tomorrow?"],
+    "context_set": ""
+  },
+  {"tag": "transport",
+    "patterns": ["whats your favourite type of transportation?","how are you getting there?","do you take the train, drive or walk?"],
+    "responses": ["I would travel by car. What do you like to drink?","I will go to the train station. What do you like to eat?"],
+    "context_set": ""
+  },
+  {"tag": "nationality",
+    "patterns": ["what is your nationality?","where are you from?","where do you live?","I live in England","I live in China"],
+    "responses": ["I am from England. What do you like to drink?","I live in China. Where do your mother and father live?"],
+    "context_set": ""
+  },
+  {"tag": "family",
+    "patterns": ["Who lives in your house?","Who is in your family?"],
+    "responses": ["My older sister, mother and father. Do you have any pets?","My mother and father live in my house. Where are your mother and father from?"],
+    "context_set": ""
+  },
+  {"tag": "food",
+    "patterns": ["What do you like to eat?","Do you like noodles or rice?"],
+    "responses": ["I like noodles when it's cold. Is it cold today?",
+      "I like rice and fish. Do you like eating at restaurants or shopping?"],
+    "context_set": ""
+  },
+  {"tag": "drink",
+    "patterns": ["What do you like to drink?","Do you want drink tea or water?","I like tea and water"],
+    "responses": ["I drink tea. What do your friends drink?","I only drink hot water. Where are you going tomorrow?"],
+    "context_set": ""
+  },
+  {"tag": "weather",
+    "patterns": ["What is the weather like today?","Is it hot or cold tomorrow?"],
+    "responses": ["It is cold. Where do you live?","It is hot. What is your favourite food?"],
+    "context_set": ""
+  },
+  {"tag": "pets",
+    "patterns": ["Do you have a dog?","Do you have a cat?"],
+    "responses": ["I have a dog. Who do you live with?","I have a cat. How do you get to school?"],
+    "context_set": ""
+  },
+  {"tag": "places",
+    "patterns": ["Where are you going?","Are you going to a restaurant tomorrow?","Do you want to go shopping and buy clothes?"],
+    "responses": ["I want to go to a restaurant. What do you want to eat?","I dont like buying clothes. Do you like school?"],
+    "context_set": ""
+  },
+  {"tag": "school",
+    "patterns": ["Do you like school","Do you like your schoolmates"],
+    "responses": ["I don't like school. Where do you go after school?","I prefer staying at home. Do you have any pets?"],
     "context_set": ""
   }
 ]}
+
