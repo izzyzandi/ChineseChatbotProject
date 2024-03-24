@@ -5,32 +5,28 @@ import startupProgram.startupProgram
 
 
 def add_newline(message):
-    num_of_loops = math.ceil(len(message)/70)+1
+    lineLength = 55
+    num_of_loops = math.ceil(len(message)/lineLength)+1
     for i in range(1, num_of_loops):
-        upper_bound = i*70
-        lower_bound = (i-1)*70
+        upper_bound = i*lineLength
+        lower_bound = (i-1)*lineLength
         messages.insert(tkinter.END, "User: " + message[lower_bound:upper_bound])
 
 def send(event=None):
     message = userMsg.get()
-    if len(message) > 70:
+    if len(message) > 55:
         add_newline(message)
     else:
         messages.insert(tkinter.END, "User: " + message)
     if z == 1:
         messages.insert(tkinter.END, startupProgram.startupProgram.Startup(message))
         userMsg.set("")
-    # message = userMsg.get()
-    # messages.insert(tkinter.END, "User: " + message)
-    # if z == 1:
-    #     messages.insert(tkinter.END, startupProgram.startupProgram.Startup(message))
-    # userMsg.set("")
 
 
 def startupGUI():
     messages.insert(tkinter.END,
-                    "Chatbot: Hi. I am a Chinese teaching chatbot. Before we can begin any lessons, I need to know your level.",
-                    "Chatbot: Please type up to 10 sentences in Chinese. When typing, please separate words with spaces. 谢谢!\n")
+                    "Chatbot: Hi. I am a Chinese teaching chatbot. Before we can begin, I need to know your level.",
+                    "Chatbot: Please type up to 10 sentences in Chinese. 谢谢!\n")
 
 
 z = 0

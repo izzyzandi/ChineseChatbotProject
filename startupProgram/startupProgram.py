@@ -1,8 +1,11 @@
+import jieba
+
+
 def NumberOfSyllables(text):
     counter = 0
     for c in text:
-        if c != '!' and c != '.' and c != '?' and c != '。':
-            if ord(c) > 123:
+        if c != '!' and c != '.' and c != '?' and c != '。' and c != '，' and c != ',':
+        #    if ord(c) > 123:
                 counter = counter + 1
     return counter
 
@@ -20,7 +23,12 @@ def FleschKincaidScoreCalculation(numberOfSyllables, numberOfWords, numberOfSent
 
 
 def NumberOfWords(text):
-    return len(text.split())
+    counter = 0
+    text = list(jieba.cut(text))
+    for c in text:
+        if c != '!' and c != '.' and c != '?' and c != '。' and c != ',' and c != '，':
+            counter = counter + 1
+    return counter
 
 
 def Startup(text):
@@ -31,9 +39,17 @@ def Startup(text):
 #    text = input()
     r = FleschKincaidScoreCalculation(NumberOfSyllables(text), NumberOfWords(text), NumberOfSentences(text))
 
-    if r >= 40:
+    # x = NumberOfWords(text)
+    # y = NumberOfSentences(text)
+    # z = NumberOfSyllables(text)
+    # print(x)
+    # print(y)
+    # print(z)
+    # print(r)
+
+    if r >= 69:
         return ("Chatbot: You are a beginner")
-    elif 23 < r < 40:
+    elif 50 < r < 69:
         return("Chatbot: You are intermediate")
     else:
         return("Chatbot: You are fluent!")

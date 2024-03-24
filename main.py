@@ -1,3 +1,52 @@
+import nltk
+from hyphen import Hyphenator
+import jieba
+
+
+def NumberOfSyllables(text):
+    text = text.lower()
+    total = 0
+    for words in text.split():
+        for i in range(0, len(words)):
+            if words[i] == 'a' or words[i] == 'e' or words[i] == 'i' or words[i] == 'o' or words[i] == 'u' or words[i] == 'y':
+                if words[i-1] != 'a' and words[i-1] != 'e' and words[i-1] != 'i' and words[i-1] != 'o' and words[i-1] != 'u' and words[i-1] != 'y':
+                    total = total + 1
+                    print(words)
+                    print(total)
+        if (words.endswith('e') and len(words) > 4) or words.endswith('ed'):
+            total = total - 1
+    return total
+
+
+
+def NumberOfWords(text):
+    return len(text.split())
+
+
+def NumberOfSentences(text):
+    return len(nltk.sent_tokenize(text))
+
+def FleschKincaidScore(numberOfSyllables, numberOfWords, numberOfSentences):
+    return 206.835 - 1.015 * (numberOfWords / numberOfSentences) - 84.6 * (numberOfSyllables / numberOfWords)
+
+
+#text = "It was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust from entering along with him."
+text = input("INPUT: ")
+#text = "我 叫 舒諾妍，我 今 年 二十 歲。我 喜歡 藍色 ，我 不 喜歡 紅色。我 喜歡 吃 麵，我 不 喜歡 吃 飯。"
+r = FleschKincaidScore(NumberOfSyllables(text), NumberOfWords(text), NumberOfSentences(text))
+x = NumberOfWords(text)
+y = NumberOfSentences(text)
+z = NumberOfSyllables(text)
+print(x)
+print(y)
+print(z)
+print(r)
+
+#GUI fs 22 3 36
+# GUI 20 3 36
+# this 23 3 33
+
+
 # import random
 #
 # # Chinese vocabulary for quizzing
@@ -51,8 +100,8 @@
 #     if exit_command.lower() == 'exit':
 #         print("Chinese Vocabulary Quiz Bot: 谢谢参与！Goodbye!")
 #         break
-
-
+#
+#
 
 
 

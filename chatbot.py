@@ -93,16 +93,20 @@ def chat():
         if inp.lower() == "quit":
             break
 
-        results = model.predict([bag_of_words(inp, words)])
+        results = model.predict([bag_of_words(inp, words)])[0]
         results_index = numpy.argmax(results)
         tag = labels[results_index]
 
-        for tag_ in data["intents"]:
-            if tag_["tag"] == tag:
-                responses = tag_["responses"]
+        if results[results_index] > 0.7:
 
-        print(random.choice(responses))
+            for tag_ in data["intents"]:
+                if tag_["tag"] == tag:
+                    responses = tag_["responses"]
 
+            print(random.choice(responses))
+
+        else:
+            print("I don't understand. Try rewording your response.")
 
 def initial_prompt():
     inp = input("INITIAL INPUT")  # replace with a quiz input of what the user got incorrect
@@ -110,6 +114,7 @@ def initial_prompt():
     results = model.predict([bag_of_words(inp, words)])
     results_index = numpy.argmax(results)
     tag = labels[results_index]
+
 
     for tag_ in data["intents"]:
         if tag_["tag"] == tag:
@@ -120,14 +125,3 @@ def initial_prompt():
 
 initial_prompt()
 chat()
-
-  # {"tag": "introductions",
-  # "patterns": ["我 的 爸爸 和 妈妈 是 中国人、", "我 今年 二十 歲"],
-  # "responses": ["我是电脑", "我不粘"],
-  # "context_set": ""
-  #                    },
-  # {"tag": "greeting",
-  #  "patterns": ["你 今天 怎么样","你好"],
-  #  "responses": ["我很好", "不好", "你好"],
-  #  "context_set": ""
-  #                      },
