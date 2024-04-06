@@ -1,61 +1,53 @@
 #https://www.bing.com/videos/riverview/relatedvideo?q=how%20to%20make%20ai%20chatbot%20in%20python%20that%20speaks%20chinese&mid=FDD1713E3F89FD8007CDFDD1713E3F89FD8007CD&ajaxhist=0
-
-import nltk
+import jieba
 import numpy
 import tflearn
 import tensorflow
 import random
 import json
-from nltk.stem.lancaster import LancasterStemmer
-stemmer = LancasterStemmer()
-
-with open("intents.json",encoding='utf-8') as file:
-    data = json.load(file)
 
 words = []
 labels = []
-docs_x = []
-docs_y = []
+training_words = []
+training_tags = []
+
+with open("intents.json",  encoding='utf-8') as file:
+    data = json.load(file)
 
 for intent in data["intents"]:
     for pattern in intent["patterns"]:
-        words_tokenised = nltk.word_tokenize(pattern)
+        words_tokenised = list(jieba.cut(pattern))
         words.extend(words_tokenised)
-        docs_x.append(words_tokenised)
-        docs_y.append(intent["tag"])
+        training_words.append(words_tokenised)
+        training_tags.append(intent["tag"])
 
     if intent["tag"] not in labels:
         labels.append(intent["tag"])
 
-words = [stemmer.stem(w.lower()) for w in words if w != "?"]
-words = sorted(list(set(words)))
-
-labels = sorted(labels)
 
 training = []
 output = []
 
 out_empty = [0 for _ in range(len(labels))]
 
-for x, doc in enumerate(docs_x):
+for x, doc in enumerate(training_words):
     bag = []
 
-    words_ = [stemmer.stem(w.lower()) for w in doc]
-
     for w in words:
-        if w in words_:
+        if w in doc:
             bag.append(1)
         else:
             bag.append(0)
 
     output_row = out_empty[:]
-    output_row[labels.index(docs_y[x])] = 1
+    output_row[labels.index(training_tags[x])] = 1
 
     training.append(bag)
     output.append(output_row)
 
 training = numpy.array(training)
 output = numpy.array(output)
+
 
 tensorflow.compat.v1.reset_default_graph()
 
@@ -74,10 +66,9 @@ model.save("model.tflearn")
 # PREDICTIONS
 
 
-def bag_of_words(s, words):
+def bag_of_words(user_input, words):
     bag = [0 for _ in range(len(words))]
-    s_words = nltk.word_tokenize(s)
-    s_words = [stemmer.stem(word.lower()) for word in s_words]
+    s_words = list(jieba.cut(user_input))
 
     for se in s_words:
         for i, w in enumerate(words):
@@ -106,7 +97,7 @@ def chat():
             print(random.choice(responses))
 
         else:
-            print("I don't understand. Try rewording your response.")
+            print("我不懂。")
 
 def initial_prompt():
     inp = input("INITIAL INPUT")  # replace with a quiz input of what the user got incorrect

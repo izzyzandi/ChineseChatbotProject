@@ -23,6 +23,8 @@ def send(event=None):
         userMsg.set("")
 
 
+
+
 def startupGUI():
     messages.insert(tkinter.END,
                     "Chatbot: Hi. I am a Chinese teaching chatbot. Before we can begin, I need to know your level.",

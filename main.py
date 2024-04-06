@@ -13,7 +13,7 @@ def NumberOfSyllables(text):
                     total = total + 1
                     print(words)
                     print(total)
-        if (words.endswith('e') and len(words) > 4) or words.endswith('ed'):
+        if (words.endswith('e') and len(words) > 4) or (words.endswith('ed') and not words.endswith('led')):
             total = total - 1
     return total
 
@@ -30,17 +30,21 @@ def FleschKincaidScore(numberOfSyllables, numberOfWords, numberOfSentences):
     return 206.835 - 1.015 * (numberOfWords / numberOfSentences) - 84.6 * (numberOfSyllables / numberOfWords)
 
 
-#text = "It was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust from entering along with him."
-text = input("INPUT: ")
+text = ("It was a bright cold day in April, and the clocks were striking thirteen. Winston Smith, "
+        "his chin nuzzled into his breast in an effort to escape the vile wind, slipped quickly through "
+        "the glass doors of Victory Mansions, though not quickly enough to prevent a swirl of gritty dust "
+        "from entering along with him.")
+#text = input("INPUT: ")
 #text = "我 叫 舒諾妍，我 今 年 二十 歲。我 喜歡 藍色 ，我 不 喜歡 紅色。我 喜歡 吃 麵，我 不 喜歡 吃 飯。"
 r = FleschKincaidScore(NumberOfSyllables(text), NumberOfWords(text), NumberOfSentences(text))
 x = NumberOfWords(text)
 y = NumberOfSentences(text)
 z = NumberOfSyllables(text)
-print(x)
-print(y)
-print(z)
+# print(x)
+# print(y)
+# print(z)
 print(r)
+print("Number of syllables:", z)
 
 #GUI fs 22 3 36
 # GUI 20 3 36

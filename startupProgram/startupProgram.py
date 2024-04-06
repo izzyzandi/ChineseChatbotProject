@@ -43,13 +43,12 @@ def Startup(text):
     # y = NumberOfSentences(text)
     # z = NumberOfSyllables(text)
     # print(x)
-    # print(y)
     # print(z)
     # print(r)
 
     if r >= 69:
         return ("Chatbot: You are a beginner")
-    elif 50 < r < 69:
+    elif 55 < r < 69:
         return("Chatbot: You are intermediate")
     else:
         return("Chatbot: You are fluent!")
