@@ -6,6 +6,8 @@ import tensorflow
 import random
 import json
 
+import AbilityTest
+
 words = []
 labels = []
 training_words = []
@@ -14,54 +16,59 @@ training_tags = []
 with open("intents.json",  encoding='utf-8') as file:
     data = json.load(file)
 
-for intent in data["intents"]:
-    for pattern in intent["patterns"]:
-        words_tokenised = list(jieba.cut(pattern))
-        words.extend(words_tokenised)
-        training_words.append(words_tokenised)
-        training_tags.append(intent["tag"])
 
-    if intent["tag"] not in labels:
-        labels.append(intent["tag"])
+def setup():
 
+    for intent in data["intents"]:
+        for pattern in intent["patterns"]:
+            words_tokenised = list(jieba.cut(pattern))
+            words.extend(words_tokenised)
+            training_words.append(words_tokenised)
+            training_tags.append(intent["tag"])
 
-training = []
-output = []
-
-out_empty = [0 for _ in range(len(labels))]
-
-for x, doc in enumerate(training_words):
-    bag = []
-
-    for w in words:
-        if w in doc:
-            bag.append(1)
-        else:
-            bag.append(0)
-
-    output_row = out_empty[:]
-    output_row[labels.index(training_tags[x])] = 1
-
-    training.append(bag)
-    output.append(output_row)
-
-training = numpy.array(training)
-output = numpy.array(output)
+        if intent["tag"] not in labels:
+            labels.append(intent["tag"])
 
 
-tensorflow.compat.v1.reset_default_graph()
+    training = []
+    output = []
 
-net = tflearn.input_data(shape=[None,len(training[0])])
-net = tflearn.fully_connected(net,8)
-net = tflearn.fully_connected(net,8)
-net = tflearn.fully_connected(net,len(output[0]),activation="softmax")
-net = tflearn.regression(net)
+    out_empty = [0 for _ in range(len(labels))]
 
-model = tflearn.DNN(net)
+    for x, doc in enumerate(training_words):
+        bag = []
 
-model.fit(training, output, n_epoch=1000,batch_size=8,show_metric=True)
+        for w in words:
+            if w in doc:
+                bag.append(1)
+            else:
+                bag.append(0)
 
-model.save("model.tflearn")
+        output_row = out_empty[:]
+        output_row[labels.index(training_tags[x])] = 1
+
+        training.append(bag)
+        output.append(output_row)
+
+    training = numpy.array(training)
+    output = numpy.array(output)
+
+
+    tensorflow.compat.v1.reset_default_graph()
+
+    net = tflearn.input_data(shape=[None,len(training[0])])
+    net = tflearn.fully_connected(net,8)
+    net = tflearn.fully_connected(net,8)
+    net = tflearn.fully_connected(net,len(output[0]),activation="softmax")
+    net = tflearn.regression(net)
+
+    model = tflearn.DNN(net)
+
+    model.fit(training, output, n_epoch=1000,batch_size=8,show_metric=True)
+
+    model.save("model.tflearn")
+
+    return model
 
 # PREDICTIONS
 
@@ -79,6 +86,8 @@ def bag_of_words(user_input, words):
 
 
 def chat():
+    model = setup()
+    initial_prompt(model)
     while True:
         inp = input("YOU: ")
         if inp.lower() == "quit":
@@ -99,13 +108,13 @@ def chat():
         else:
             print("我不懂。")
 
-def initial_prompt():
-    inp = input("INITIAL INPUT")  # replace with a quiz input of what the user got incorrect
+
+def initial_prompt(model):
+    inp = AbilityTest.quiz()  # replace with a quiz input of what the user got incorrect
 
     results = model.predict([bag_of_words(inp, words)])
     results_index = numpy.argmax(results)
     tag = labels[results_index]
-
 
     for tag_ in data["intents"]:
         if tag_["tag"] == tag:
@@ -114,5 +123,4 @@ def initial_prompt():
     print(random.choice(responses))
 
 
-initial_prompt()
 chat()

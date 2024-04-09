@@ -3,7 +3,6 @@ import tkinter
 
 import startupProgram.startupProgram
 
-
 def add_newline(message):
     lineLength = 55
     num_of_loops = math.ceil(len(message)/lineLength)+1
