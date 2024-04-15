@@ -69,6 +69,7 @@ def quiz():
             # print(f"{i+1}. {x}")
 
         messages.insert(tkinter.END, "Chatbot: " + "Please enter the number of the correct answer")
+        messages.see(tkinter.END)
 
         global message
         # button = False
@@ -93,9 +94,6 @@ def quiz():
 
     #    print(incorrect_vocabulary)
     return random.choice(incorrect_vocabulary)
-
-
-# https://www.bing.com/videos/riverview/relatedvideo?q=how%20to%20make%20ai%20chatbot%20in%20python%20that%20speaks%20chinese&mid=FDD1713E3F89FD8007CDFDD1713E3F89FD8007CD&ajaxhist=0
 
 
 words = []
@@ -237,8 +235,13 @@ def send(event=None):
         add_newline(message)
     else:
         messages.insert(tkinter.END, "User: " + message)
+    if z % 15 == 0:
+        userMsg.set("")
+        z += 1
+        chat()
     if z > 1:
         userMsg.set("")
+        z += 1
     if z == 1:
         messages.insert(tkinter.END, startupProgram.startupProgram.Startup(message))
         userMsg.set("")
