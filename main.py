@@ -6,7 +6,6 @@ import tflearn
 import tensorflow
 import json
 import startupProgram.startupProgram
-
 import random
 
 
